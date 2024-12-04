@@ -1,17 +1,21 @@
 import re
 
-matches = []
-quote = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
-matches = re.findall('mul\\(\\d+,\\d+\\)', quote)
-total = 0
-for i in range(len(matches)):
-    matches[i] = matches[i][3:len(matches[i])]
-    #print(matches[i])
-    matches[i] = matches[i][1:len(matches[i]) - 1]
-    #print(matches[i])
-    a, b = matches[i].split(',')
-    total += int(a) * int(b)
+with open("./input.txt", 'r') as reader:
+    total = 0
+    line = reader.readline()
+    while line != '':
+        matches = []
+        matches = re.findall('mul\\(\\d+,\\d+\\)', line)
+        for i in range(len(matches)):
+            #Remove "mul" substring in each string
+            matches[i] = matches[i][3:len(matches[i])]
+            #Remove parenthesis so i can work on each pair
+            matches[i] = matches[i][1:len(matches[i]) - 1]
     
+            a, b = matches[i].split(',')
+            total += (int(a) * int(b))
+        line = reader.readline()
+
 print(total)
 
 
